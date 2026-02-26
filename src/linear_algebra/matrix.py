@@ -1,3 +1,4 @@
+import math
 class Matrix:
     def __init__(self, data):
         """
@@ -113,3 +114,26 @@ class Matrix:
         ]
 
         return Matrix(inverse_data)
+    def eigenvalues(self):
+        if self.rows != 2 or self.cols != 2:
+            raise ValueError("Eigenvalue method currently supports only 2x2 matrices.")
+
+        a = self.data[0][0]
+        b = self.data[0][1]
+        c = self.data[1][0]
+        d = self.data[1][1]
+
+        trace = a + d
+        det = self.determinant()
+
+        discriminant = trace**2 - 4 * det
+
+        if discriminant < 0:
+            raise ValueError("Complex eigenvalues not supported yet.")
+
+        sqrt_disc = math.sqrt(discriminant)
+
+        lambda1 = (trace + sqrt_disc) / 2
+        lambda2 = (trace - sqrt_disc) / 2
+
+        return (lambda1, lambda2)
