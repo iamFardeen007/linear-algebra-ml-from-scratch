@@ -44,3 +44,72 @@ class Matrix:
                     result[i][j] += self.data[i][k] * other.data[k][j]
 
         return Matrix(result)
+    def transpose(self):
+        result = [
+            [self.data[j][i] for j in range(self.rows)]
+            for i in range(self.cols)
+        ]
+        return Matrix(result)
+    def determinant(self):
+        if self.rows != self.cols:
+            raise ValueError("Determinant only defined for square matrices.")
+
+        # 2x2 base case
+        if self.rows == 2:
+            return (
+                self.data[0][0] * self.data[1][1]
+                - self.data[0][1] * self.data[1][0]
+            )
+
+        # 1x1 case
+        if self.rows == 1:
+            return self.data[0][0]
+
+        # Recursive case (Laplace expansion)
+        det = 0
+        for col in range(self.cols):
+            submatrix = [
+                [self.data[i][j] for j in range(self.cols) if j != col]
+                for i in range(1, self.rows)
+            ]
+            sign = (-1) ** col
+            det += sign * self.data[0][col] * Matrix(submatrix).determinant()
+
+        return det
+    def inverse(self):
+        if self.rows != self.cols:
+            raise ValueError("Inverse only defined for square matrices.")
+
+        det = self.determinant()
+        if det == 0:
+            raise ValueError("Matrix is singular and cannot be inverted.")
+
+        # 2x2 shortcut
+        if self.rows == 2:
+            return Matrix([
+                [ self.data[1][1] / det, -self.data[0][1] / det],
+                [-self.data[1][0] / det,  self.data[0][0] / det]
+            ])
+
+        # General case
+        cofactors = []
+        for i in range(self.rows):
+            cofactor_row = []
+            for j in range(self.cols):
+                minor = [
+                    [self.data[r][c] for c in range(self.cols) if c != j]
+                    for r in range(self.rows) if r != i
+                ]
+                sign = (-1) ** (i + j)
+                cofactor_row.append(sign * Matrix(minor).determinant())
+            cofactors.append(cofactor_row)
+
+        cofactor_matrix = Matrix(cofactors)
+        adjugate = cofactor_matrix.transpose()
+
+        inverse_data = [
+            [adjugate.data[i][j] / det for j in range(self.cols)]
+            for i in range(self.rows)
+        ]
+
+        return Matrix(inverse_data)

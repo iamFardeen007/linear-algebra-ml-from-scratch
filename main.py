@@ -8,3 +8,8 @@ C = A + B
 print("Addition Result:", C)
 D = A * B
 print("Multiplication Result:", D)
+T = A.transpose()
+print("Transpose:", T)
+print("Determinant:", A.determinant())
+inv_A = A.inverse()
+print("Inverse:", inv_A)
