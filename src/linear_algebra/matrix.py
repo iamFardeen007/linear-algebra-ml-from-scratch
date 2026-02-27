@@ -137,3 +137,4 @@ class Matrix:
         lambda2 = (trace - sqrt_disc) / 2
 
         return (lambda1, lambda2)
+    
