@@ -54,3 +54,16 @@ print("\n--- Logistic Regression ---")
 print("Learned parameters:", log_model.theta)
 print("Predictions:", preds)
 print("Accuracy:", log_model.accuracy(X, y))
+from sklearn.linear_model import LogisticRegression as SklearnLogistic
+
+# Train sklearn model
+sk_log_model = SklearnLogistic()
+sk_log_model.fit(X, y)
+
+print("\n--- sklearn Logistic Comparison ---")
+print("Sklearn intercept:", sk_log_model.intercept_)
+print("Sklearn coefficient:", sk_log_model.coef_)
+
+sk_preds = sk_log_model.predict(X)
+print("Sklearn Predictions:", sk_preds)
+print("Sklearn Accuracy:", np.mean(sk_preds == y))
