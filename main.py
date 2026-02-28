@@ -29,3 +29,28 @@ predictions = model.predict(X)
 
 print("Learned parameters:", model.theta)
 print("Predictions:", predictions)
+print("R2 Score:", model.r2_score(X, y))
+from sklearn.linear_model import LinearRegression as SklearnLR
+
+# Train sklearn model
+sk_model = SklearnLR()
+sk_model.fit(X, y)
+
+print("\n--- sklearn comparison ---")
+print("Sklearn intercept:", sk_model.intercept_)
+print("Sklearn coefficient:", sk_model.coef_)
+from src.ml.logistic_regression import LogisticRegression
+
+# Simple classification dataset
+X = np.array([[1], [2], [3], [4], [5], [6]])
+y = np.array([0, 0, 0, 1, 1, 1])
+
+log_model = LogisticRegression(learning_rate=0.1, iterations=2000)
+log_model.fit(X, y)
+
+preds = log_model.predict(X)
+
+print("\n--- Logistic Regression ---")
+print("Learned parameters:", log_model.theta)
+print("Predictions:", preds)
+print("Accuracy:", log_model.accuracy(X, y))
